@@ -2,15 +2,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BreadthFirstSearch {
-
-	Node startnode;
-    Node goalnode;
+public class BreadthFirstSearch extends PathFinder {
     
     public BreadthFirstSearch(Node start, Node end) {
     	
-    	this.startnode = start;
-    	this.goalnode = end;
+    	super(start,end);
+    	
     }
     /**
      * algorithm using queues and slowly popping them off until the city we want is found
@@ -19,21 +16,21 @@ public class BreadthFirstSearch {
     public boolean search() {
     	
     	
-    	if (this.startnode.equals(this.goalnode)) {
+    	if (super.startnode.equals(super.goalnode)) {
     		System.out.println("Goal Node Found!");
-            System.out.println(startnode);
+            System.out.println(super.startnode);
     	}
     	
     	Queue<Node> queue = new LinkedList<Node>();
     	ArrayList<Node> explored = new ArrayList<>();
-    	queue.add(this.startnode);
+    	queue.add(super.startnode);
     	//explored.add(this.startnode);
     	
     	while(!queue.isEmpty()) {
     		
     		Node current = queue.remove();
     		
-    		if (current.equals(this.goalnode)) {
+    		if (current.equals(super.goalnode)) {
     			explored.add(current);
     			System.out.println(queue);
     			System.out.println(explored);
