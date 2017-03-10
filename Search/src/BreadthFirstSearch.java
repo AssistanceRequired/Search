@@ -36,10 +36,19 @@ public class BreadthFirstSearch extends PathFinder {
     			System.out.println(explored);
                 return true;
     		} else {
-                 if (current.getChildren().isEmpty())
+                 if (current.getChildren().isEmpty()) {
                      return false;
-                 else
-                	 queue.addAll(current.getChildren());
+                 } else {
+                	 /**
+                	  * checks and avoids any path that was already taken
+                	  */
+                	 for (int i = 0; i < current.getChildren().size(); i ++) {
+                		 if (!queue.contains(current.getChildren().get(i))) {
+                			 queue.add(current.getChildren().get(i));
+                		 }
+                	 }
+                	 //queue.addAll(current.getChildren());
+                 }
             }
             explored.add(current);
         }
