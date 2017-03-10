@@ -31,7 +31,7 @@ public class BreadthFirstSearch extends PathFinder {
     		
     		if (current.equals(super.goalnode)) {
     			explored.add(current);
-    			System.out.println(queue);
+    			//System.out.println(queue);
     			System.out.println(explored);
                 return true;
     		} else {

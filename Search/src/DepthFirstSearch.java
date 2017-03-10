@@ -25,7 +25,8 @@ public class DepthFirstSearch extends PathFinder {
 		while (!stack.isEmpty()) {
 			Node current = stack.pop();
 			if (current.equals(super.goalnode)) {
-				System.out.print(visitednodes);
+				visitednodes.add(current);
+				System.out.println(visitednodes);
 		        System.out.println("Goal node found");
 		        return true;
 			} else {

@@ -27,9 +27,13 @@ public class SearchRunner {
 	    
 	    BreadthFirstSearch bfs = new BreadthFirstSearch(city8, city1);
 
-	    if(bfs.search())
-	    	System.out.print("Path Found!");
+	    if (bfs.search())
+	    	System.out.println("Path Found!");
 	    
+	    DepthFirstSearch dfs = new DepthFirstSearch(city8,city1);
+	    
+	    if (dfs.search())
+	    	System.out.println("Path Found!");
 	}
 	
 	public static int[] arrayBuilder(int size) {
