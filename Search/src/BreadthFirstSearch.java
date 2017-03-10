@@ -24,7 +24,6 @@ public class BreadthFirstSearch extends PathFinder {
     	Queue<Node> queue = new LinkedList<Node>();
     	ArrayList<Node> explored = new ArrayList<>();
     	queue.add(super.startnode);
-    	//explored.add(this.startnode);
     	
     	while(!queue.isEmpty()) {
     		
