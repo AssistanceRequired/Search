@@ -20,7 +20,7 @@ public class DepthFirstSearch extends PathFinder {
 		
 		Stack<Node> stack = new Stack<Node>();
 		ArrayList<Node> visitednodes = new ArrayList<Node>();
-		stack.add(startnode);
+		stack.push(startnode);
 		
 		while (!stack.isEmpty()) {
 			Node current = stack.pop();
