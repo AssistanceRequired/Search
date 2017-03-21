@@ -14,26 +14,50 @@ public class SearchRunner {
 		System.out.println(search.linearSearch(arr, 4));
 		
 		/**
-		 * breadthfirst path finder 
+		 * breadthfirst path finder nodes
+		 * depthfirst path finder nodes
+		 * dijkstra path finder nodes with index
 		 */
-		Node city1 = new Node("L.A", null, null);
-	    Node city2 = new Node("San Diego",city1);
-	    Node city3 = new Node("San Francisco", city1);
-	    Node city4 = new Node("Dallas", city1, city2);
-	    Node city5 = new Node("Miami", city4);
-	    Node city6 = new Node("Denver", city1, city3);
-	    Node city7 = new Node("Chicago", city6, city3);
-	    Node city8 = new Node("New York", city4, city5, city6, city7);
+		Node city1 = new Node("L.A",0, null, null);
+	    Node city2 = new Node("San Diego", 1, city1);
+	    Node city3 = new Node("San Francisco", 2, city1);
+	    Node city4 = new Node("Dallas", 3, city1, city2);
+	    Node city5 = new Node("Miami", 4, city4);
+	    Node city6 = new Node("Denver", 5, city1, city3);
+	    Node city7 = new Node("Chicago", 6, city6, city3);
+	    Node city8 = new Node("New York", 7, city4, city5, city6, city7);
+	    
+	    /**
+	     * adjmatrix that contains all the costs for the cities for dijkstra
+	     */
+	    int[][] adjMat = new int[][]{
+        	{0,75,100,90,125,0,0,0},
+        	{75,0,20,0,0,0,0,25},
+        	{100,20,0,0,0,0,100,75},
+        	{90,0,0,0,50,0,0,0},
+        	{125,0,0,50,0,90,80,0},
+        	{0,0,0,0,80,45,0,0},
+        	{0,0,100,0,80,45,0,45},
+        	{0,25,75,0,0,0,45,0}};
 	    
 	    BreadthFirstSearch bfs = new BreadthFirstSearch(city8, city1);
-
-	    if (bfs.search())
-	    	System.out.println("Path Found!");
 	    
 	    DepthFirstSearch dfs = new DepthFirstSearch(city8,city1);
 	    
+	    Dijkstra dij = new Dijkstra(city8,city1,adjMat);
+
+	    System.out.println("\n" + "breadthfirst search ");
+	    if (bfs.search())
+	    	System.out.println("Path Found!");
+	    
+	    System.out.println("\n" + "depthfirst search ");
 	    if (dfs.search())
 	    	System.out.println("Path Found!");
+	    
+	    System.out.println("\n" + "dijksttra search ");
+	    if (dij.search()) 
+	    	System.out.println("Path Found!");
+	    
 	}
 	
 	public static int[] arrayBuilder(int size) {
