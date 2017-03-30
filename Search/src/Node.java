@@ -15,6 +15,12 @@ public class Node implements Comparable<Node> {
 	
 	private ArrayList<Node> childnodes = new ArrayList<Node>();
 	
+	private int posX;
+	
+	private int posY;
+	
+	private double costWheur;
+	
 	public Node(String name, Node... child) {
 		
 		this.name = name;
@@ -33,6 +39,7 @@ public class Node implements Comparable<Node> {
 			childnodes.add(kid);
 		}
 	}
+	
 	/**
 	 * Paths that this node will lead to
 	 * @return all children of this node
@@ -41,7 +48,14 @@ public class Node implements Comparable<Node> {
 		
         return childnodes;
 	}
-	
+	 /*
+     * Adds children/connecting Nodes to the Node.
+     */
+    public void setChildren(ArrayList<Node> kids) {
+    	
+    	this.childnodes = kids;
+    	
+    }
 	public boolean removeChild(Node n) {
 		
         return false;
@@ -58,6 +72,14 @@ public class Node implements Comparable<Node> {
 		
 		this.min = min;
 		
+	}
+	/**
+	 * 
+	 * @param min
+	 */
+	public void setDistanceWHuer(int min) {
+		
+		this.costWheur = min;
 	}
 			
 	public Node getParent() {
@@ -84,6 +106,7 @@ public class Node implements Comparable<Node> {
 	@Override
 	public int compareTo(Node arg0) {
 		
-		return this.min - arg0.min;
+		return (int)(this.costWheur - arg0.costWheur);
+		
 	}
 }
