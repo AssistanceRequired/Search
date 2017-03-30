@@ -41,7 +41,7 @@ public class Dijkstra extends PathFinder {
 				 */
 				for (Node n : current.getChildren()) {
 					
-					//makes sure priority doesn't have the node to avoid double - back
+					// what occurs when we are moving to a new city
 					if (!priority.contains(n) && !visitednodes.contains(n)) {
 						//updates the minimum distance of priority queue
 						n.setDistance(current.getDistance() + super.adj[current.getIndex()][n.getIndex()]);
@@ -49,7 +49,7 @@ public class Dijkstra extends PathFinder {
 						priority.add(n);
 						
 					} else if (n.getDistance() > current.getDistance() + super.adj[current.getIndex()][n.getIndex()]) {
-						//shorter path has been found and updating the nodes
+						//shorter path has been found and updating the nodes for cities we have already moved to
 						n.setDistance(current.getDistance() + super.adj[current.getIndex()][n.getIndex()]);
 					}
 				}
