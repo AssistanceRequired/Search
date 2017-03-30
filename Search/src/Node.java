@@ -84,6 +84,6 @@ public class Node implements Comparable<Node> {
 	@Override
 	public int compareTo(Node arg0) {
 		
-		return 0;
+		return this.min - arg0.min;
 	}
 }
