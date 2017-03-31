@@ -39,6 +39,12 @@ public class Node implements Comparable<Node> {
 			childnodes.add(kid);
 		}
 	}
+	public Node(int x, int y) {
+		
+		this.posX = x;
+		this.posY = y;
+		
+	}
 	
 	/**
 	 * Paths that this node will lead to
@@ -73,15 +79,37 @@ public class Node implements Comparable<Node> {
 		this.min = min;
 		
 	}
-	/**
-	 * 
-	 * @param min
-	 */
-	public void setDistanceWHuer(int min) {
+	
+	public void setDistanceWHuer(double min) {
 		
 		this.costWheur = min;
+		
 	}
-			
+	public double getDistanceWHuer() {
+		
+		return costWheur;
+		
+	}
+	public void setX(int x) {
+		
+		posX = x;
+		
+	}
+	public void setY(int y) {
+		
+		posY = y;
+		
+	}
+	public int getX() {
+		
+		return posX;
+		
+	}
+	public int getY() {
+		
+		return posY;
+		
+	}
 	public Node getParent() {
 		
 		return parent;
