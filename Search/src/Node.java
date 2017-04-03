@@ -19,7 +19,7 @@ public class Node implements Comparable<Node> {
 	
 	private int posY;
 	
-	private double costWheur;
+	private double costWheur = Integer.MAX_VALUE;
 	
 	public Node(String name, Node... child) {
 		
@@ -60,6 +60,11 @@ public class Node implements Comparable<Node> {
     public void setChildren(ArrayList<Node> kids) {
     	
     	this.childnodes = kids;
+    	
+    }
+    public void addChildren(Node node) {
+    	
+    	childnodes.add(node);
     	
     }
 	public boolean removeChild(Node n) {

@@ -39,12 +39,30 @@ public class SearchRunner {
         	{0,0,0,0,80,45,0,0},
         	{0,0,100,0,80,45,0,45},
         	{0,25,75,0,0,0,45,0}};
+        	
+        /*
+         * a star map
+         */
+        int[][] map = new int[][] {
+            {1,1,1,1,0,1,1,1},
+            {1,1,0,1,0,1,0,1},
+            {1,1,0,1,1,1,0,1},
+            {1,1,0,1,0,0,0,1},
+            {1,1,0,1,0,1,0,1},
+            {1,1,0,1,1,1,0,1},
+            {1,1,0,1,0,1,0,1},
+            {1,1,1,1,0,1,1,1}};
+           
+        Node start11 = new Node(0,0);
+        Node goal11 = new Node(7,7);
 	    
 	    BreadthFirstSearch bfs = new BreadthFirstSearch(city8, city1);
 	    
 	    DepthFirstSearch dfs = new DepthFirstSearch(city8,city1);
 	    
 	    Dijkstra dij = new Dijkstra(city8,city1,adjMat);
+	    
+	    AStar astar = new AStar(start11, goal11, map, 8);
 
 	    System.out.println("\n" + "breadthfirst search ");
 	    if (bfs.search())
@@ -58,6 +76,9 @@ public class SearchRunner {
 	    if (dij.search()) 
 	    	System.out.println("Path Found!");
 	    
+	    System.out.println("\n" + "astar search ");
+	    if (astar.search())
+	    	System.out.println("Path Found!");
 	}
 	
 	public static int[] arrayBuilder(int size) {

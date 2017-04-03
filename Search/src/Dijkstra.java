@@ -51,6 +51,7 @@ public class Dijkstra extends PathFinder {
 					} else if (n.getDistance() > current.getDistance() + super.adj[current.getIndex()][n.getIndex()]) {
 						//shorter path has been found and updating the nodes for cities we have already moved to
 						n.setDistance(current.getDistance() + super.adj[current.getIndex()][n.getIndex()]);
+						n.setParent(current);
 					}
 				}
 			}
@@ -64,9 +65,9 @@ public class Dijkstra extends PathFinder {
 	public void printPath(Node goal) {
 		
 		while(goal.getParent() != null) {
-			System.out.println(goal + " <-- to ");
+			System.out.print(goal + " <-- to ");
 			goal = goal.getParent();
 		}
-		System.out.println("From" + goal);
+		System.out.println(goal);
 	}
 }
