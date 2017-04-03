@@ -7,13 +7,9 @@ public class AStar extends PathFinder {
 	
 	private Node[][] grid;
 	
-	private int[][] map;
-	
 	public AStar(Node start, Node end, int[][] map, int gridsize) {
 		
-		super(start, end);
-		
-		this.map = map;
+		super(start, end, map);
 		
 		this.grid = new Node[gridsize][gridsize];
 		this.grid[super.startnode.getX()][startnode.getY()] = startnode;
@@ -46,7 +42,7 @@ public class AStar extends PathFinder {
 		 */
 		if (current.getY() < gridsize - 1) {
 			
-			if (map[current.getX()][current.getY()+1] != 0) {
+			if (adj[current.getX()][current.getY()+1] != 0) {
 				
 				current.addChildren(grid[current.getX()][current.getY()+1]);
 				
@@ -54,7 +50,7 @@ public class AStar extends PathFinder {
 		}
 		if (current.getX() < gridsize - 1) {
 			
-			if (map[current.getX()+1][current.getY()] != 0) {
+			if (adj[current.getX()+1][current.getY()] != 0) {
 				
 				current.addChildren(grid[current.getX()+1][current.getY()]);
 				
@@ -62,7 +58,7 @@ public class AStar extends PathFinder {
 		}
 		if (current.getX() > 0) {
 			
-			if (map[current.getX()-1][current.getY()] != 0) {
+			if (adj[current.getX()-1][current.getY()] != 0) {
 				
 				current.addChildren(grid[current.getX()-1][current.getY()]);
 				
@@ -70,7 +66,7 @@ public class AStar extends PathFinder {
 		}
 		if (current.getY() > 0) {
 			
-			if (map[current.getX()][current.getY()-1] != 0) {
+			if (adj[current.getX()][current.getY()-1] != 0) {
 				
 				current.addChildren(grid[current.getX()][current.getY()-1]);
 				
@@ -119,7 +115,7 @@ public class AStar extends PathFinder {
 				 */
 				for (Node n : current.getChildren()) {
 					
-					// what occurs when we are moving to a new city
+					// what occurs when we are moving to a new city so we don't need to add/compound the distance
 					if (!priority.contains(n) && !visitednodes.contains(n)) {
 						//updates the minimum distance of priority queue
 						n.setDistance(current.getDistance() + super.adj[current.getIndex()][n.getIndex()]);
@@ -131,7 +127,7 @@ public class AStar extends PathFinder {
 						//shorter path has been found and updating the nodes for cities we have already moved to
 						n.setDistance(current.getDistance() + super.adj[current.getIndex()][n.getIndex()]);
 						n.setDistanceWHuer(n.getDistance() + calcDist(n));
-						n.setParent(current);
+						//n.setParent(current);
 					}
 				}
 			}

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SearchRunner {
@@ -27,18 +28,42 @@ public class SearchRunner {
 	    Node city7 = new Node("Chicago", 6, city6, city3);
 	    Node city8 = new Node("New York", 7, city4, city5, city6, city7);
 	    
+	    Node NYC = new Node("New York City",0);
+        Node CHI = new Node("Chicago",1);
+        Node DEN = new Node("Denver",2);
+        Node MIA = new Node("Miami",3);
+        Node DAL = new Node("Dallas",4);
+        Node SD = new Node("San Diego",5);
+        Node LA = new Node("Los Angeles",6);
+        Node SF = new Node("San Francisco",7);
+        
+	    NYC.setChildren(new ArrayList<Node>(Arrays.asList(CHI,DEN,MIA,DAL)));
+        CHI.setChildren(new ArrayList<Node>(Arrays.asList(NYC,SF,DEN)));
+        DEN.setChildren(new ArrayList<Node>(Arrays.asList(CHI,NYC,LA,SF)));
+        MIA.setChildren(new ArrayList<Node>(Arrays.asList(NYC,DAL)));
+        DAL.setChildren(new ArrayList<Node>(Arrays.asList(NYC,SD,MIA,LA)));
+        SD.setChildren(new ArrayList<Node>(Arrays.asList(LA,DAL)));
+        LA.setChildren(new ArrayList<Node>(Arrays.asList(SD,SF,DEN,DAL)));
+        SF.setChildren(new ArrayList<Node>(Arrays.asList(LA,DEN,CHI)));
 	    /**
 	     * adjmatrix that contains all the costs for the cities for dijkstra
 	     */
-	    int[][] adjMat = new int[][]{
-        	{0,75,100,90,125,0,0,0},
-        	{75,0,20,0,0,0,0,25},
-        	{100,20,0,0,0,0,100,75},
-        	{90,0,0,0,50,0,0,0},
-        	{125,0,0,50,0,90,80,0},
-        	{0,0,0,0,80,45,0,0},
-        	{0,0,100,0,80,45,0,45},
-        	{0,25,75,0,0,0,45,0}};
+        int[][] adjMat = new int[][]{
+        	{0,338,725,1613,0,0,0,0,0,0,0,0},//Boston
+        	{338,0,383,0,2145,0,0,0,0,0,0,0},//New York
+        	{725,383,0,1145,1709,0,2113,0,0,0,0,0},//DC
+        	{1613,0,1145,0,0,661,0,0,0,0,0,0},//Chicago
+        	{0,2145,1709,0,0,0,2161,0,0,0,0,0},//Miami
+        	{0,0,0,661,0,0,1532,1483,0,2661,0,0},//Minneapolis
+        	{0,0,2113,0,2161,1532,1258,0,1983,0,0,0},//Dallas
+        	{0,0,0,0,0,1483,1258,0,1225,2161,0,0},//Denver
+        	{0,0,0,0,0,0,1983,1225,0,0,919,435},//LasVegas
+        	{0,0,0,0,0,2661,0,2161,0,0,1306,0},//Seattle
+        	{0,0,0,0,0,0,0,0,919,1306,0,629},//SanFran
+        	{0,0,0,0,0,0,0,0,435,0,629,0}//LA
+        };	
+        Dijkstra dijkstra = new Dijkstra(NYC,SF,adjMat);
+        dijkstra.search();
         	
         /*
          * a star map
@@ -76,9 +101,10 @@ public class SearchRunner {
 	    if (dij.search()) 
 	    	System.out.println("Path Found!");
 	    
-	    System.out.println("\n" + "astar search ");
+	    System.out.println("\n" + "AStar search ");
 	    if (astar.search())
 	    	System.out.println("Path Found!");
+	    
 	}
 	
 	public static int[] arrayBuilder(int size) {

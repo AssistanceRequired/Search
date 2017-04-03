@@ -117,7 +117,7 @@ public class Node implements Comparable<Node> {
 	}
 	public Node getParent() {
 		
-		return parent;
+		return this.parent;
 		
 	}
 	
@@ -139,6 +139,11 @@ public class Node implements Comparable<Node> {
 	@Override
 	public int compareTo(Node arg0) {
 		
+		/*
+		 * for dijkstra
+		 */ 
+		//return this.min - arg0.min;
+		 
 		return (int)(this.costWheur - arg0.costWheur);
 		
 	}

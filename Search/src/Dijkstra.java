@@ -51,9 +51,10 @@ public class Dijkstra extends PathFinder {
 					} else if (n.getDistance() > current.getDistance() + super.adj[current.getIndex()][n.getIndex()]) {
 						//shorter path has been found and updating the nodes for cities we have already moved to
 						n.setDistance(current.getDistance() + super.adj[current.getIndex()][n.getIndex()]);
-						n.setParent(current);
+						//n.setParent(current);
 					}
 				}
+				visitednodes.add(current);
 			}
 		}
 		return false;
