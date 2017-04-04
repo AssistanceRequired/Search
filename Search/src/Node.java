@@ -19,7 +19,7 @@ public class Node implements Comparable<Node> {
 	
 	private int posY;
 	
-	private double costWheur = Integer.MAX_VALUE;
+	private double costWheur = Double.MAX_VALUE;
 	
 	public Node(String name, Node... child) {
 		
@@ -43,6 +43,7 @@ public class Node implements Comparable<Node> {
 		
 		this.posX = x;
 		this.posY = y;
+		this.name = "[" + x + "," + y + "]";
 		
 	}
 	

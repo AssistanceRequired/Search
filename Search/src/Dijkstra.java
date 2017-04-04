@@ -16,9 +16,9 @@ public class Dijkstra extends PathFinder {
             System.out.println(super.startnode);
     	}
 		
+		this.startnode.setDistance(0);
 		PriorityQueue<Node> priority = new PriorityQueue<Node>();
 		priority.add(startnode);
-		
 		ArrayList<Node> visitednodes = new ArrayList<Node>();
 		
 		while (!priority.isEmpty()) {
@@ -51,7 +51,7 @@ public class Dijkstra extends PathFinder {
 					} else if (n.getDistance() > current.getDistance() + super.adj[current.getIndex()][n.getIndex()]) {
 						//shorter path has been found and updating the nodes for cities we have already moved to
 						n.setDistance(current.getDistance() + super.adj[current.getIndex()][n.getIndex()]);
-						//n.setParent(current);
+						n.setParent(current);
 					}
 				}
 				visitednodes.add(current);
@@ -63,10 +63,9 @@ public class Dijkstra extends PathFinder {
 	 * moving backwards to find the path we took to get to goal node
 	 * @param goal
 	 */
-	public void printPath(Node goal) {
-		
-		while(goal.getParent() != null) {
-			System.out.print(goal + " <-- to ");
+	private void printPath(Node goal){
+		while (goal.getParent() != null) {
+			System.out.print(goal + "<--");
 			goal = goal.getParent();
 		}
 		System.out.println(goal);

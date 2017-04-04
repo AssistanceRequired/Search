@@ -11,8 +11,9 @@ public class AStar extends PathFinder {
 		
 		super(start, end, map);
 		
+		this.adj = map;
 		this.grid = new Node[gridsize][gridsize];
-		this.grid[super.startnode.getX()][startnode.getY()] = startnode;
+		this.grid[startnode.getX()][startnode.getY()] = startnode;
 		this.grid[goalnode.getX()][goalnode.getY()] = goalnode;
 		
 		for (int i = 0; i < gridsize; i++) {
@@ -26,7 +27,7 @@ public class AStar extends PathFinder {
 				}
 			}
 		}
-		
+	
 		this.gridsize = gridsize; 
 	}
 	/**
@@ -77,7 +78,7 @@ public class AStar extends PathFinder {
 	}
 	
 	public double calcDist(Node current) {
-		
+
 		return Math.sqrt(Math.pow((current.getX() - goalnode.getX()),2) 
 				+ Math.pow(current.getY() - goalnode.getY(),2));
 	}
@@ -90,19 +91,19 @@ public class AStar extends PathFinder {
             System.out.println(super.startnode);
     	}
 		
+		this.startnode.setDistance(0);
 		PriorityQueue<Node> priority = new PriorityQueue<Node>();
 		priority.add(startnode);
-		
 		ArrayList<Node> visitednodes = new ArrayList<Node>();
+		System.out.println(startnode);
 		
 		while (!priority.isEmpty()) {
 			
 			Node current = priority.remove();
-			
+			System.out.println(current.getChildren());
 			//found the node
 			if (current.equals(super.goalnode)) {
 				
-				visitednodes.add(current);
 				printPath(current);
 				return true;
 				
@@ -114,22 +115,25 @@ public class AStar extends PathFinder {
 				 * until we find a path that is more expensive or we found our goalnode
 				 */
 				for (Node n : current.getChildren()) {
-					
+					System.out.println(n);
 					// what occurs when we are moving to a new city so we don't need to add/compound the distance
 					if (!priority.contains(n) && !visitednodes.contains(n)) {
 						//updates the minimum distance of priority queue
-						n.setDistance(current.getDistance() + super.adj[current.getIndex()][n.getIndex()]);
+						n.setDistance(current.getDistance() + super.adj[current.getX()][n.getY()]);
 						n.setDistanceWHuer(n.getDistance() + calcDist(n));
 						n.setParent(current);
 						priority.add(n);
 						
-					} else if (n.getDistanceWHuer() > current.getDistance() + super.adj[current.getIndex()][n.getIndex()] + calcDist(n)) {
+					} else if (n.getDistanceWHuer() > current.getDistance() + super.adj[current.getX()][n.getY()]
+							+ calcDist(n)) {
 						//shorter path has been found and updating the nodes for cities we have already moved to
-						n.setDistance(current.getDistance() + super.adj[current.getIndex()][n.getIndex()]);
+						n.setDistance(current.getDistance() + super.adj[current.getX()][n.getY()]);
 						n.setDistanceWHuer(n.getDistance() + calcDist(n));
-						//n.setParent(current);
+						n.setParent(current);
+						System.out.println(4);
 					}
 				}
+				visitednodes.add(current);
 			}
 		}
 		return false;
@@ -142,10 +146,10 @@ public class AStar extends PathFinder {
 	public void printPath(Node goal) {
 		
 		while(goal.getParent() != null) {
-			System.out.println(goal.getX() + "," + goal.getY() + " <-- to ");
+			System.out.println(goal +  " <-- to ");
 			goal = goal.getParent();
 		}
-		System.out.println("From" + goal.getX() + "," + goal.getY());
+		System.out.println(goal);
 	}
 
 }

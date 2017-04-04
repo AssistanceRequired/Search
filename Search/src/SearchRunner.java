@@ -77,16 +77,16 @@ public class SearchRunner {
             {1,1,0,1,1,1,0,1},
             {1,1,0,1,0,1,0,1},
             {1,1,1,1,0,1,1,1}};
-           
-        Node start11 = new Node(0,0);
-        Node goal11 = new Node(7,7);
-	    
+
 	    BreadthFirstSearch bfs = new BreadthFirstSearch(city8, city1);
 	    
 	    DepthFirstSearch dfs = new DepthFirstSearch(city8,city1);
 	    
 	    Dijkstra dij = new Dijkstra(city8,city1,adjMat);
 	    
+	    Node start11 = new Node(0,0);
+        Node goal11 = new Node(7,7);
+
 	    AStar astar = new AStar(start11, goal11, map, 8);
 
 	    System.out.println("\n" + "breadthfirst search ");
