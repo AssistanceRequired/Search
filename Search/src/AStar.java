@@ -10,7 +10,8 @@ public class AStar extends PathFinder{
 	private int size;
 	
 	
-	public AStar(Node start, Node goal, int[][] graph, int size){
+	public AStar(Node start, Node goal, int[][] graph, int size) {
+		
 		super(start, goal, graph);
 		this.grid = new Node [size][size];
 		this.grid[start.getX()][start.getY()] = start;
@@ -18,9 +19,9 @@ public class AStar extends PathFinder{
 		this.size = size;
 		
 		//Populates the Grid with Nodes
-		for(int i = 0; i < size; i++){
-			for(int j = 0; j < size; j++){
-				if(grid[i][j] != start && grid[i][j] != goal){
+		for(int i = 0; i < size; i++) {
+			for(int j = 0; j < size; j++) {
+				if(grid[i][j] != start && grid[i][j] != goal) {
 					grid[i][j] = new Node(i,j);
 					grid[i][j].setCost(calcDist(grid[i][j]));
 				}
@@ -33,32 +34,32 @@ public class AStar extends PathFinder{
 	 * @param current Node
 	 * @return a list of the children nodes
 	 */
-	private ArrayList<Node> getChildren(Node current){
+	private ArrayList<Node> getChildren(Node current) {
 		int x = current.getX();
 		int y = current.getY();
-		ArrayList<Node> children = new ArrayList<Node>();
+
 		//Makes sure the current Node position is not on the "edges" of the Array.
 		if (y < size-1) {
-			if (adj[x][y+1]!=0){
-				children.add(grid[x][y+1]);
+			if (adj[x][y+1]!=0) {
+				current.addChildren((grid[x][y+1]));
 			}
 		}
 		if (x < size-1) {
 			if (adj[x+1][y] != 0){
-				children.add(grid[x+1][y]);
+				current.addChildren((grid[x+1][y]));
 			}
 		}
 		if (x > 0) {
 			if (adj[x-1][y] != 0){
-				children.add(grid[x-1][y]);
+				current.addChildren((grid[x-1][y]));
 			}
 		}
 		if (y > 0) {
 			if (adj[x][y-1] != 0){
-				children.add(grid[x][y-1]);
+				current.addChildren(grid[x][y-1]);
 			}
 		}
-		return children;
+		return current.getChildren();
 	}
 	
 	/**
@@ -85,15 +86,14 @@ public class AStar extends PathFinder{
 		unexplored.add(startnode);
 		ArrayList<Node> explored = new ArrayList<Node>();
 		
-		while (!unexplored.isEmpty()){
+		while (!unexplored.isEmpty()) {
 			
 			Node current = unexplored.remove();
 			if (current.equals(this.goalnode)) {
 				explored.add(current);
 				printPath(current);
 				return true;
-			}
-			else{
+			} else {
 				for (Node x : getChildren(current)) {
 					
 					if (!explored.contains(x) && !unexplored.contains(x)) {
@@ -114,7 +114,7 @@ public class AStar extends PathFinder{
 	}
 
 	private void printPath(Node goal) {
-		while (goal.getParent() != null){
+		while (goal.getParent() != null) {
 			System.out.print(goal + " <--- ");
 			goal = goal.getParent();
 		}
