@@ -1,155 +1,125 @@
+
 import java.util.ArrayList;
+import java.util.Stack;
+
+
 import java.util.PriorityQueue;
 
-public class AStar extends PathFinder {
-
-	private int gridsize;
+public class AStar extends PathFinder{
 	
-	private Node[][] grid;
+	private Node [][] grid;
+	private int size;
 	
-	public AStar(Node start, Node end, int[][] map, int gridsize) {
+	
+	public AStar(Node start, Node goal, int[][] graph, int size){
+		super(start, goal, graph);
+		this.grid = new Node [size][size];
+		this.grid[start.getX()][start.getY()] = start;
+		this.grid[goal.getX()][goal.getY()] = goal;
+		this.size = size;
 		
-		super(start, end, map);
-		
-		this.adj = map;
-		this.grid = new Node[gridsize][gridsize];
-		this.grid[startnode.getX()][startnode.getY()] = startnode;
-		this.grid[goalnode.getX()][goalnode.getY()] = goalnode;
-		
-		for (int i = 0; i < gridsize; i++) {
-			
-			for (int j = 0; j < gridsize; j++) {
-				
-				if (this.grid[i][j] != startnode && this.grid[i][j] != goalnode) {
-					
+		//Populates the Grid with Nodes
+		for(int i = 0; i < size; i++){
+			for(int j = 0; j < size; j++){
+				if(grid[i][j] != start && grid[i][j] != goal){
 					grid[i][j] = new Node(i,j);
-					grid[i][j].setDistanceWHuer(calcDist(grid[i][j]));
+					grid[i][j].setCost(calcDist(grid[i][j]));
 				}
 			}
 		}
-	
-		this.gridsize = gridsize; 
 	}
 	/**
-	 * we are using a custom grid for this search for easy visuals of heuristic. 0 represents a blocked path.
-	 * getCHildren is implemented here as we search instead of adding all children at once.
-	 * @param current
-	 * @return
+	 * Uses our grid to determine the children
+	 * we have from our current node.
+	 * @param current Node
+	 * @return a list of the children nodes
 	 */
-	public ArrayList<Node> getChildren(Node current) {
-		/*
-		 *first if-statement checks for corner
-		 *second if checks to see if road is blocked
-		 */
-		if (current.getY() < gridsize - 1) {
-			
-			if (adj[current.getX()][current.getY()+1] != 0) {
-				
-				current.addChildren(grid[current.getX()][current.getY()+1]);
-				
+	private ArrayList<Node> getChildren(Node current){
+		int x = current.getX();
+		int y = current.getY();
+		ArrayList<Node> children = new ArrayList<Node>();
+		//Makes sure the current Node position is not on the "edges" of the Array.
+		if (y < size-1) {
+			if (adj[x][y+1]!=0){
+				children.add(grid[x][y+1]);
 			}
 		}
-		if (current.getX() < gridsize - 1) {
-			
-			if (adj[current.getX()+1][current.getY()] != 0) {
-				
-				current.addChildren(grid[current.getX()+1][current.getY()]);
-				
+		if (x < size-1) {
+			if (adj[x+1][y] != 0){
+				children.add(grid[x+1][y]);
 			}
 		}
-		if (current.getX() > 0) {
-			
-			if (adj[current.getX()-1][current.getY()] != 0) {
-				
-				current.addChildren(grid[current.getX()-1][current.getY()]);
-				
+		if (x > 0) {
+			if (adj[x-1][y] != 0){
+				children.add(grid[x-1][y]);
 			}
 		}
-		if (current.getY() > 0) {
-			
-			if (adj[current.getX()][current.getY()-1] != 0) {
-				
-				current.addChildren(grid[current.getX()][current.getY()-1]);
-				
+		if (y > 0) {
+			if (adj[x][y-1] != 0){
+				children.add(grid[x][y-1]);
 			}
 		}
-		
-		return current.getChildren();
+		return children;
 	}
 	
-	public double calcDist(Node current) {
-
-		return Math.sqrt(Math.pow((current.getX() - goalnode.getX()),2) 
-				+ Math.pow(current.getY() - goalnode.getY(),2));
+	/**
+	 * the distance to goalnode from current node
+	 * @param current Node
+	 * @return Euclidean/Heuristic distance from current to goal Node
+	 */
+	private double calcDist(Node current){
+		
+		return Math.sqrt(Math.pow(current.getX() - goalnode.getX(),2) + Math.pow(current.getY() - goalnode.getY(), 2));
 	}
 
 	@Override
-	boolean search() {
+	public boolean search() {
 		
-		if (super.startnode.equals(super.goalnode)) {
-    		System.out.println("Goal Node Found!");
-            System.out.println(super.startnode);
-    	}
+		if(this.startnode.equals(goalnode))
+		{
+			System.out.println("Goal Node Found!");
+			System.out.println(startnode);
+		}
 		
 		this.startnode.setDistance(0);
-		PriorityQueue<Node> priority = new PriorityQueue<Node>();
-		priority.add(startnode);
-		ArrayList<Node> visitednodes = new ArrayList<Node>();
-		System.out.println(startnode);
+		PriorityQueue<Node> unexplored = new PriorityQueue<Node>();
+		unexplored.add(startnode);
+		ArrayList<Node> explored = new ArrayList<Node>();
 		
-		while (!priority.isEmpty()) {
+		while (!unexplored.isEmpty()){
 			
-			Node current = priority.remove();
-			System.out.println(current.getChildren());
-			//found the node
-			if (current.equals(super.goalnode)) {
-				
+			Node current = unexplored.remove();
+			if (current.equals(this.goalnode)) {
+				explored.add(current);
 				printPath(current);
 				return true;
-				
-			} else {
-				
-				/**
-				 * uses the greedy algorithm to get through the cheapest child node before moving on. 
-				 * If the path continues to be cheaper than the next path in the queue then we can keep checking
-				 * until we find a path that is more expensive or we found our goalnode
-				 */
-				for (Node n : current.getChildren()) {
-					System.out.println(n);
-					// what occurs when we are moving to a new city so we don't need to add/compound the distance
-					if (!priority.contains(n) && !visitednodes.contains(n)) {
-						//updates the minimum distance of priority queue
-						n.setDistance(current.getDistance() + super.adj[current.getX()][n.getY()]);
-						n.setDistanceWHuer(n.getDistance() + calcDist(n));
-						n.setParent(current);
-						priority.add(n);
-						
-					} else if (n.getDistanceWHuer() > current.getDistance() + super.adj[current.getX()][n.getY()]
-							+ calcDist(n)) {
-						//shorter path has been found and updating the nodes for cities we have already moved to
-						n.setDistance(current.getDistance() + super.adj[current.getX()][n.getY()]);
-						n.setDistanceWHuer(n.getDistance() + calcDist(n));
-						n.setParent(current);
-						System.out.println(4);
+			}
+			else{
+				for (Node x : getChildren(current)) {
+					
+					if (!explored.contains(x) && !unexplored.contains(x)) {
+						x.setDistance(current.getDistance() + 1);
+						x.setCost(x.getDistance() + calcDist(x));
+						x.setParent(current);
+						unexplored.add(x);
+					} else if (x.getDistance() > current.getDistance() + 1) {
+						x.setDistance(current.getDistance() + 1);
+						x.setCost(x.getDistance() + calcDist(x));
+						x.setParent(current);
 					}
 				}
-				visitednodes.add(current);
+				explored.add(current);
 			}
 		}
 		return false;
 	}
-	
-	/**
-	 * moving backwards to find the path we took to get to goal node
-	 * @param goal
-	 */
-	public void printPath(Node goal) {
-		
-		while(goal.getParent() != null) {
-			System.out.println(goal +  " <-- to ");
+
+	private void printPath(Node goal) {
+		while (goal.getParent() != null){
+			System.out.print(goal + " <--- ");
 			goal = goal.getParent();
 		}
 		System.out.println(goal);
 	}
-
+	
 }

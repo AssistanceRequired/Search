@@ -19,7 +19,7 @@ public class Node implements Comparable<Node> {
 	
 	private int posY;
 	
-	private double costWheur = Double.MAX_VALUE;
+	private double cost = Double.MAX_VALUE;
 	
 	public Node(String name, Node... child) {
 		
@@ -86,16 +86,16 @@ public class Node implements Comparable<Node> {
 		
 	}
 	
-	public void setDistanceWHuer(double min) {
+	public double getCost() {
 		
-		this.costWheur = min;
-		
+		return this.cost;
 	}
-	public double getDistanceWHuer() {
+	
+	public void setCost(double c){
 		
-		return costWheur;
-		
+		this.cost = c;
 	}
+
 	public void setX(int x) {
 		
 		posX = x;
@@ -145,7 +145,7 @@ public class Node implements Comparable<Node> {
 		 */ 
 		//return this.min - arg0.min;
 		 
-		return (int)(this.costWheur - arg0.costWheur);
+		return Double.compare(this.cost, arg0.getCost());
 		
 	}
 }
